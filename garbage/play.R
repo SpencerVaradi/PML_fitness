@@ -11,6 +11,17 @@ fit_gbm <- train(classe ~ ., data = trainingNumericScaled, method = "gbm")
 fit_lda <- train(class ~ ., data = trainData, method = "lda")
 fit_glm <- train(classe ~ ., data = trainData, method = "glm")
 fit_glm2 <- glm(classe ~ ., data = trainData)
+my.grid <- expand.grid(.decay = c(0.5, 0.1), .size = c(5, 6, 7))
+
+library(car)
+library(caret)
+trainIndex <- createDataPartition(Prestige$income, p=.7, list=F)
+prestige.train <- Prestige[trainIndex, ]
+prestige.test <- Prestige[-trainIndex, ]
+prestige.fit <- train(income ~ prestige + education, data = prestige.train,
+                      method = "nnet", maxit = 1000, trace = F, linout = 1)
+prestige.predict <- predict(prestige.fit, newdata = prestige.test)
+prestige.rmse <- sqrt(mean((prestige.predict - prestige.test$income)^2))
 
 trainData <- training_PCA
 
