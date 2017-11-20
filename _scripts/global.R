@@ -1,3 +1,12 @@
+reqPacks <- c("caret","ggplot2","forecast","rpart","lubridate","corrplot","reshape2","plotly","nFactors","mlbench","progress", "randomForest", "e1071"
+)
+
+for (reqPack in reqPacks){
+  if (!(reqPack %in% installed.packages()[,1])){
+    install.packages(reqPack)
+  }
+}
+
 library(caret)
 library(ggplot2)
 library(forecast)
@@ -9,6 +18,8 @@ library(plotly)
 library(nFactors)
 library(mlbench)
 library(progress)
+library(randomForest)
+library(e1071)
 
 training_origin <- read.csv("https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv", header = TRUE) #, stringsAsFactors = FALSE)
 training_origin <- training_origin[,-1]
@@ -26,6 +37,7 @@ inTrain <- createDataPartition(training_origin$classe, p = 3/4)[[1]]
 # I thought originally that this was to be tested without prior knowledge. Changed to forget that
 training <- training_origin[inTrain,]
 testing <- training_origin[-inTrain,]
+trainingClasse <- training$classe
 
 # Hold onto the classe before we chuck it
 testingClasse <- testing$classe

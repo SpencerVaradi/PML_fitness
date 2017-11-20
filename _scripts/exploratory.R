@@ -1,4 +1,58 @@
+# Take a peek at the original published data
+researchData <- read.csv("data/researchData.csv", header=TRUE)
+
 # classe is dependent variable
+# Breakdown from the training data classe
+qplot(training_origin$classe)
+qplot(training$classe)
+
+ldaFit <- lda(classe ~ ., data=trainingClean)
+ldaPred <- predict(ldaFit, newdata = testing)
+confusionMatrix(ldaPred$class, testingClasse)#  testingAnswers$classe)
+
+table(ldaPred$class, testingClasse)
+
+rfFit <- randomForest(classe ~ ., data=trainingClean)
+rfPred <- predict(rfFit, newdata=testing)
+confusionMatrix(rfPred, testingClasse)
+
+testing_originClean <- testing_origin[,names(testing_originClean) %in% names(trainingClean)]
+
+for (col in names(testing_originClean)) {
+  if (class(testing_originClean[col]) %in% c("factor","double")) {
+    testing_originClean[col] <- as.numeric(testing_originClean[col])
+
+  }
+}
+
+apples <- rbind(testing_originClean,trainingClean[,-ncol(trainingClean)])
+
+rfTestingResults <- predict(rfFit, newdata = apples[1:nrow(testing_originClean),])
+ldaTestingResults <- predict(ldaFit, newdata = apples[1:nrow(testing_originClean),])
+
+confusionMatrix(as.integer(rfTestingResults), as.integer(ldaTestingResults))
+
+trainingCleanClasses <- as.data.frame(lapply(trainingClean[,1:ncol(trainingClean) - 1], class),stringsAsFactors = FALSE)
+testing_OriginCleanClasses <- as.data.frame(lapply(testing_originClean, class),stringsAsFactors = FALSE)
+
+names(testing_OriginCleanClasses) == names(trainingCleanClasses)
+trainingCleanClasses == testing_OriginCleanClasses
+
+rbind(as.data.frame(, as.data.frame()))
+
+# Mix for combined model
+fitDF <- cbind(trainingClasse, predict(ldaFit), predict(rfFit))
+testingFitDF <- cbind(testing)
+fitDFfit <- randomForest(fit, newdata = testing)
+
+
+# is there a lot of variance on measures between user_name?
+# For this, we will need to look at apples to apples. Meaning, at which level should we aggregate so that we can compare users?
+# Try using just the apparently aggregated information in the mostly NA rows
+
+# Data should be scaled to
+
+qplot(user_name ~ ., data = training)
 
 # only 2% are complete cases
 sum(complete.cases(training))/dim(training)[1]
