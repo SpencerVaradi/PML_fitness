@@ -35,8 +35,11 @@ table(trainingAgg$new_window,is.na(trainingAgg$max_roll_belt))
 sum(complete.cases(trainingAgg))
 trainingAgg <- trainingAgg[complete.cases(trainingAgg),]
 
-fakeDB <- data.frame()
-for (col in names(trainingAgg)) {
+
+trainingAggClasses <- sapply(trainingClean, class)
+
+fakeDB <- trainingAgg
+for (col in names(trainingAgg[rmColNames])) {
   if (class(trainingAgg[col]) == "factor") {
     fakeDB[col] <- as.numeric(trainingAgg[col])
 

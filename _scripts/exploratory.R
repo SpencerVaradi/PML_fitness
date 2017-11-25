@@ -4,7 +4,6 @@ researchData <- read.csv("data/researchData.csv", header=TRUE)
 # classe is dependent variable
 # Breakdown from the training data classe
 qplot(training_origin$classe)
-qplot(training$classe)
 
 ldaFit <- lda(classe ~ ., data=trainingClean)
 ldaPred <- predict(ldaFit, newdata = testing)
@@ -30,7 +29,7 @@ apples <- rbind(testing_originClean,trainingClean[,-ncol(trainingClean)])
 rfTestingResults <- predict(rfFit, newdata = apples[1:nrow(testing_originClean),])
 ldaTestingResults <- predict(ldaFit, newdata = apples[1:nrow(testing_originClean),])
 
-confusionMatrix(as.integer(rfTestingResults), as.integer(ldaTestingResults))
+confusionMatrix(rfTestingResults, ldaTestingResults$class)
 
 trainingCleanClasses <- as.data.frame(lapply(trainingClean[,1:ncol(trainingClean) - 1], class),stringsAsFactors = FALSE)
 testing_OriginCleanClasses <- as.data.frame(lapply(testing_originClean, class),stringsAsFactors = FALSE)

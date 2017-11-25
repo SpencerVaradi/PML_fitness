@@ -1,0 +1,11 @@
+base
+lattice
+ggplot2
+caret
+rpart
+corrplot
+reshape2
+randomForest
+e1071
+MASS
+knitr

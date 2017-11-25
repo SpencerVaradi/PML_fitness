@@ -1,0 +1,24 @@
+---
+title: "mixed model"
+output: html_document
+---
+
+# Mixed Models
+The models were combined and a model fit using the two new predictors assessed. Corresponding fit values were created in the testing sets to make sure the correct model is applied. More specifically, the data was bound together and notated for which records were present in their respective sets. This improved the accuracy to 99.98%.
+```{r}
+mixedDF <- data.frame(lda = predict(ldaFit)$class, rf = predict(rfFit),classe = trainingClean$classe)
+set.seed(500)
+
+mixedRfFit <- randomForest(classe ~ ., data = mixedDF)
+# mixedLdaFit <- lda(classe ~ ., data = mixedDF)
+mixedTesting <- data.frame(lda = predict(ldaFit, newdata = testing)$class, rf = predict(rfFit, newdata = testing))
+mixedRfPred <- predict(mixedRfFit, newdata = mixedTesting)
+str(mixedRfPred)
+str(testingClasse)
+confusionMatrix(mixedRfPred, testingClasse)
+```
+# Mixed Model Submission
+
+```{r}
+mixedTestimg_origin <-  data.frame(lda = predict(ldaFit, newdata = testing_origin)$class, rf = predict(rfFit, newdata = testing_origin))
+```
