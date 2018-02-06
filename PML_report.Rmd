@@ -1,8 +1,8 @@
 ---
 title: "PML Fitness"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -80,7 +80,7 @@ confusionMatrix(ldaPred$class, testingClasse)
 ```
 
 ## Random Forrest (RF)
-RF model produced 99.99% accuracy. Only 3 classes were misclassified.
+RF model produced 99.99% accuracy. Only 2 classes were misclassified.
 When this was submitted, it yeilded 17 out of 20 correct predictions. With an 85% accuracy actually closer to the LDA model, the model is either missing something or overfit to the training data. the randomForest() function appears to have a pretty significant bug when it comes using predict(). The model has to be fit from a subset the same dataframe.
 ```{r cache=TRUE}
 

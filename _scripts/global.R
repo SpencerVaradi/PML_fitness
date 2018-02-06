@@ -56,3 +56,5 @@ source("_scripts/functions.R")
 
 # range(testing$cvtd_timestamp) - range(training$cvtd_timestamp)
 
+library(indicoio)
+sentiment("It's Friday Yo!!!",api_key= "31b35ffa45e415af842b315d9ab7e7ad")

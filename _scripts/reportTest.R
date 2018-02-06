@@ -79,7 +79,8 @@ library(randomForest)
 trainData <- data.frame(trainingAll[nrow(trainingClean),], classe = trainingClean$classe)
 rfFit <- randomForest(classe ~ ., data = trainData)
 saveRDS(rfFit, "rfFit.rds")
-rfPred <- predict(rfFit, newdata = trainingAll[nrow(trainingClean)+1:nrow(trainingAll),])
+rfPred <- predict(rfFit, newdata = testing)
+                    trainingAll[nrow(trainingClean)+1:nrow(trainingAll),])
 confusionMatrix(rfPred, testingClasse)
 
 # Mixed Models
